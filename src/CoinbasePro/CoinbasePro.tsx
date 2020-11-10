@@ -7,7 +7,7 @@ import Line from "./Line";
 import Content from "./Content";
 import Header from "./Header";
 import Chart from './Chart';
-import { PanGestureHandler, State } from "react-native-gesture-handler";
+import { PanGestureHandler, ScrollView, State } from "react-native-gesture-handler";
 import Animated, {  add,diffClamp,eq,modulo,sub } from 'react-native-reanimated'
 import {onGestureEvent, useValues} from 'react-native-redash'
 import Label from './Label'
@@ -16,7 +16,7 @@ const { width: size } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex:1,
     backgroundColor: "black"
   }
 });
@@ -78,7 +78,7 @@ export default () => {
     }
   }
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View>
         <Header />
         <Animated.View style={{opacity}}>
@@ -87,7 +87,7 @@ export default () => {
       </View>
         <View>
           <Chart {...{candles,size, caliber, domain}} />
-          <PanGestureHandler minDist={0} {...gestureHandler}>
+          <PanGestureHandler  {...gestureHandler}>
             <Animated.View style={StyleSheet.absoluteFill}>
               <Animated.View style={{...StyleSheet.absoluteFillObject, opacity, transform:[{translateY}]}}>
                 <Line x={size} y={0}/>
@@ -100,6 +100,6 @@ export default () => {
           </PanGestureHandler>
         </View>
         <Content {...{domain, handleNextSlides, handlePrevSlides, currentSlice}}/>
-    </View>
+    </ScrollView>
   );
 };
