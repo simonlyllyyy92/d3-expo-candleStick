@@ -18,7 +18,7 @@ const formatInt = (value: Animated.Node<number>) => {
 // eslint-disable-next-line import/prefer-default-export
 export const format = (value: Animated.Node<number>) => {
   const int = floor(value);
-  const dec = floor(multiply(sub(value, int), 100));
+  const dec = floor(multiply(sub(value, int), 100000));
   const formattedDec = cond(
     eq(dec, 0),
     "00",

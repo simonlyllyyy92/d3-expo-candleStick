@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "can-it-be-done-in-react-native-season3",
-    "slug": "can-it-be-done-in-react-native-season3",
+    "name": "candleStick-chart",
+    "slug": "candleStick-chart",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [

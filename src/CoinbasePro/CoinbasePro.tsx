@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 
-import data from "./data.json";
+import demoData from './demoData.json'
 import Values from "./Values";
 import Line from "./Line";
 import Content from "./Content";
@@ -13,10 +13,7 @@ import {onGestureEvent, useValues} from 'react-native-redash'
 import Label from './Label'
 
 const { width: size } = Dimensions.get("window");
-const candles = data.slice(0, 20);
-const values = candles.map(candle => [candle.low, candle.high]).flat()
-const domain: [number,number]= [Math.min(...values), Math.max(...values)]
-const caliber = size / candles.length;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -34,6 +31,18 @@ const styles = StyleSheet.create({
  * State.END The gesture recognizer has received touches recognized as the end of the gesture. After that it will reset to the initial state.
  */
 export default () => {
+
+
+  const [initialNum, setInitialNum] = useState(0)
+  const [numToSlice, setNumToSlice] = useState(40)
+  const [currentSlice, setCurrentSlice] = useState(1)
+
+  let candles = demoData.slice(initialNum, numToSlice)
+  let values = candles.map(candle => [candle.l, candle.h]).flat()
+  let domain: [number,number]= [Math.min(...values), Math.max(...values)]
+  const caliber = size / candles.length;
+
+
   const [x, y, state] = useValues([0,0,State.UNDETERMINED], [])
   const gestureHandler = onGestureEvent({x,y,state})
   const opacity = eq(state, State.ACTIVE)
@@ -43,6 +52,31 @@ export default () => {
   //modulo 取余
   //add 求和
   //sub 按 element 顺序相减
+
+
+  useEffect(() => {
+    candles = demoData.slice(initialNum, numToSlice)
+    values = candles.map(candle => [candle.l, candle.h]).flat()
+    domain = [Math.min(...values), Math.max(...values)]
+  }, [initialNum, numToSlice])
+
+  
+  
+  const handleNextSlides = () => {
+    if(initialNum < demoData.length){
+      setInitialNum(initialNum + 40)
+      setNumToSlice(numToSlice + 40)
+      setCurrentSlice(currentSlice + 1)
+    }
+  }
+
+  const handlePrevSlides = () => {
+    if(initialNum > 0){
+      setInitialNum(initialNum - 40)
+      setNumToSlice(numToSlice - 40)
+      setCurrentSlice(currentSlice - 1)
+    }
+  }
   return (
     <View style={styles.container}>
       <View>
@@ -65,7 +99,7 @@ export default () => {
             </Animated.View>
           </PanGestureHandler>
         </View>
-        <Content />
+        <Content {...{domain, handleNextSlides, handlePrevSlides, currentSlice}}/>
     </View>
   );
 };

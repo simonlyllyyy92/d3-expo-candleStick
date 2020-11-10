@@ -1,8 +1,9 @@
 export interface Candle {
-  date: string;
-  day: number;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
+  u: number;
+  o: number;
+  h: number;
+  l: number;
+  c: number;
+  v: number;
+  a: number;
 }

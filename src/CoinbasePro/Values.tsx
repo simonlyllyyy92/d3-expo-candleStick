@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 16
   },
-  date: {
+  u: {
     color: "white",
     textAlign: "center",
     fontSize: 20,
@@ -38,7 +38,8 @@ const styles = StyleSheet.create({
 const formatValue = (value: number) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "USD"
+    currency: "USD",
+    maximumSignificantDigits: 6
   }).format(value);
 
 interface HeaderProps {
@@ -48,9 +49,9 @@ interface HeaderProps {
 }
 
 export default ({ candles, x, caliber }: HeaderProps) => {
-  const [{ date, open, close, high, low }, setCandle] = useState(candles[0]);
-  const diff = `${((close - open) * 100) / open}`;
-  const change = close - open < 0 ? diff.substring(0, 5) : diff.substring(0, 4);
+  const [{ u, o, c, h, l, v }, setCandle] = useState(candles[0]);
+  const diff = `${((c - o) * 100) / o}`;
+  const change = c - o < 0 ? diff.substring(0, 5) : diff.substring(0, 4);
   useCode(() => onChange(x, call([floor(divide(x, caliber))], ([index])=>{
     setCandle(candles[index])
   })), [x,candles])
@@ -58,23 +59,23 @@ export default ({ candles, x, caliber }: HeaderProps) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.table}>
         <View style={styles.column}>
-          <Row label="Open" value={formatValue(open)} />
-          <Row label="Close" value={formatValue(close)} />
-          <Row label="Volume" value="" />
+          <Row label="Open" value={formatValue(o)} />
+          <Row label="Close" value={formatValue(c)} />
+          <Row label="Volume" value={v} />
         </View>
         <View style={styles.separator} />
         <View style={styles.column}>
-          <Row label="High" value={formatValue(high)} />
-          <Row label="Low" value={formatValue(low)} />
+          <Row label="High" value={formatValue(h)} />
+          <Row label="Low" value={formatValue(l)} />
           <Row
             label="Change"
             value={`${change}%`}
-            color={close - open > 0 ? "#4AFA9A" : "#E33F64"}
+            color={c - o > 0 ? "#4AFA9A" : "#E33F64"}
           />
         </View>
       </View>
-      <Text style={styles.date}>
-        {moment(date).format("h:mm MMM Do, YYYY")}
+      <Text style={styles.u}>
+        {moment(u).format('MMM DD h:mm A')}
       </Text>
     </SafeAreaView>
   );

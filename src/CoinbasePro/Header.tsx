@@ -90,12 +90,12 @@ export default () => {
             />
             <View style={styles.rightColumn}>
               <Text style={styles.title}>BTC - USD</Text>
-              <Text style={styles.subtitle}>2.2k BTC 24hr vol</Text>
+              <Text style={styles.subtitle}>0.0k BTC 24hr vol</Text>
             </View>
             <View style={styles.leftColumn}>
-              <Text style={styles.title}>$7,543.12</Text>
+              <Text style={styles.title}>$0.00</Text>
               <Text style={[styles.subtitle, { color: "#4AFA9A" }]}>
-                +5.11%
+                +0.00%
               </Text>
             </View>
           </View>
